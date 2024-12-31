@@ -1,0 +1,85 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+MFlashA512       0x1a000000         0x00080000         xr
+MFlashB512       0x1b000000         0x00080000         xr
+RamLoc32         0x10000000         0x00008000         xrw
+RamLoc40         0x10080000         0x00008000         xrw
+RamLoc08         0x10088000         0x00002000         xrw
+RamAHB32         0x20000000         0x00008000         xrw
+RamAHB16         0x20008000         0x00004000         xrw
+RamAHB_ETB16     0x2000c000         0x00004000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x1a080000                __top_MFlashA512 = 0x1a080000
+                0x1b080000                __top_MFlashB512 = 0x1b080000
+                0x10008000                __top_RamLoc32 = 0x10008000
+                0x10088000                __top_RamLoc40 = 0x10088000
+                0x1008a000                __top_RamLoc08 = 0x1008a000
+                0x20008000                __top_RamAHB32 = 0x20008000
+                0x2000c000                __top_RamAHB16 = 0x2000c000
+                0x20010000                __top_RamAHB_ETB16 = 0x20010000
+
+.text.code      0x10000000      0x19c
+ FILL mask 0xff
+ *(.text)
+ .text          0x10000000      0x19c binarios/proyecto.o
+                0x10000000                reset
+
+.glue_7         0x1000019c        0x0
+ .glue_7        0x1000019c        0x0 linker stubs
+
+.glue_7t        0x1000019c        0x0
+ .glue_7t       0x1000019c        0x0 linker stubs
+
+.vfp11_veneer   0x1000019c        0x0
+ .vfp11_veneer  0x1000019c        0x0 linker stubs
+
+.v4_bx          0x1000019c        0x0
+ .v4_bx         0x1000019c        0x0 linker stubs
+
+.iplt           0x1000019c        0x0
+ .iplt          0x1000019c        0x0 binarios/proyecto.o
+
+.igot.plt       0x1000019c        0x0
+ .igot.plt      0x1000019c        0x0 binarios/proyecto.o
+
+.rel.dyn        0x1000019c        0x0
+ .rel.iplt      0x1000019c        0x0 binarios/proyecto.o
+
+.text.data      0x10080000      0x110
+ FILL mask 0xff
+ *(.isr)
+ .isr           0x10080000       0xe8 binarios/proyecto.o
+                0x10080100                . = ALIGN (0x100)
+ *fill*         0x100800e8       0x18 ff
+ FILL mask 0xff
+ *(.data)
+ .data          0x10080100       0x10 binarios/proyecto.o
+                0x10088000                PROVIDE (stack, (__top_RamLoc40 - 0x0))
+LOAD binarios/proyecto.o
+OUTPUT(binarios/proyecto.elf elf32-littlearm)
+
+.bss            0x10080110        0x0
+ .bss           0x10080110        0x0 binarios/proyecto.o
+
+.ARM.attributes
+                0x00000000       0x21
+ .ARM.attributes
+                0x00000000       0x21 binarios/proyecto.o
+
+.debug_line     0x00000000       0xd8
+ .debug_line    0x00000000       0xd8 binarios/proyecto.o
+
+.debug_info     0x00000000       0x49
+ .debug_info    0x00000000       0x49 binarios/proyecto.o
+
+.debug_abbrev   0x00000000       0x14
+ .debug_abbrev  0x00000000       0x14 binarios/proyecto.o
+
+.debug_aranges  0x00000000       0x20
+ .debug_aranges
+                0x00000000       0x20 binarios/proyecto.o

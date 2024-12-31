@@ -1,0 +1,1 @@
+PROYECTO ?= lab4/lucca.s
